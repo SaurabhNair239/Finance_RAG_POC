@@ -1,8 +1,20 @@
 import pandas as pd
-import numpy 
+from langchain_community.document_loaders import CSVLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+
+loader = CSVLoader("./Data/yahoo_apple_news.csv")
+
+data = loader.load()
 
 
-data = pd.read_csv("./Data/NEWS_YAHOO_stock_prediction.csv")
+text_split_model = RecursiveCharacterTextSplitter(
+    chunk_size = 400,
+    chunk_overlap = 50,
+    separators=["\n"]
+)
+
+splited_document = text_split_model.split_documents(data)
 
 
-print(data)
+print(len(splited_document))
+
